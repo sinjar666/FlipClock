@@ -423,6 +423,12 @@
 			}
 		},
 
+		/**
+		 * Gets a digitized monthly counter
+		 * 
+		 * @param   bool    Include seconds count? If not sent then no.
+		 * @return  object  Returns a digitized object
+		 */
 		getMonthCounter: function(includeSeconds)	{
 			var obj = this.digitize([
 				this.getMonths(),
@@ -438,6 +444,12 @@
 			return obj;
 		},
 
+		/**
+		 * Gets a digitized yearly counter
+		 * 
+		 * @param   bool    Include seconds count? If not sent then no.
+		 * @return  object  Returns a digitized object
+		 */
 		getYearCounter: function()	{
 			var obj = this.digitize([
 				this.getYears(),
