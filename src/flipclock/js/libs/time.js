@@ -314,6 +314,29 @@
 				return this.time;
 			}
 		},
+
+		/**
+		 * Gets the count in months only if the time is in date
+		 * 
+		 * @return  int  Returns a floored integer
+		 */
+		getTimeMonths: function(date)	{
+			if(!date)	{
+				date = new Date();
+			}
+
+			if (this.time instanceof Date)	{
+				if (this.factory.countdown)	{
+					return Math.max(this.time.getMonth() - date.getMonth(), 0);
+				}
+				else	{
+					return date.getMonth() - this.time.getMonth();
+				}
+			}
+			else	{
+				throw new Error("Month difference can only be calculated if date is given");
+			}
+		},
 		
 		/**
 		 * Gets the current twelve hour time
@@ -384,6 +407,66 @@
 			}
 			
 			return Math.floor(weeks);
+		},
+
+		/**
+		 * Gets number of months
+		 *
+		 * @param   bool  Should perform a modulus? If not sent, then no.
+		 * @return  int   Retuns a floored integer
+		 */
+		getMonths: function(mod)	{			
+			var months = this.getTimeMonths();
+			
+			if(mod)	{
+				months = months % 12;
+			}
+		},
+
+		getMonthCounter: function(includeSeconds)	{
+			var obj = this.digitize([
+				this.getMonths(),
+				this.getDays(true),
+				this.getHours(true),
+				this.getMinutes(true)
+			]);
+
+			if(includeSeconds)	{
+				obj.push(this.getSeconds(true));
+			}
+			
+			return obj;
+		},
+
+		getYearCounter: function()	{
+			var obj = this.digitize([
+				this.getYears(),
+				this.getMonths(true),
+				this.getDays(true),
+				this.getHours(true),
+				this.getMinutes(true)
+			]);
+
+			if(includeSeconds)	{
+				this.getSeconds(true);
+			}
+			
+			return obj;
+		},
+
+		/**
+		 * Gets number of years
+		 *
+		 * @param   bool  Should perform a modulus? If not sent, then no.
+		 * @return  int   Retuns a floored integer
+		 */
+		getYears: function(mod)	{
+			var years = this.getTimeMonths() / 12;
+
+			if(mod)	{
+				//modulus of 10 for decade
+				years = years % 10;
+			}
 		},
 		
 		/**
